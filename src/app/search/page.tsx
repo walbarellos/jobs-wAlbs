@@ -1,7 +1,7 @@
 // src/app/search/page.tsx
 import { searchLinks } from "@/lib/queries";
 
-export default async function SearchPage({ searchParams }) {
+export default async function SearchPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
   const q = searchParams.q || "";
   const results = q ? await searchLinks(q) : [];
 
