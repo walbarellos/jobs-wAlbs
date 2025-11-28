@@ -277,7 +277,7 @@ export default function GithubPortfolio() {
               <img
                 src={PROFILE.avatarUrl}
                 alt={PROFILE.name}
-                className="relative w-36 h-36 rounded-full border-4 border-white/20 shadow-2xl"
+                className="relative w-36 h-36 rounded-full border-4 border-white/20 shadow-2xl object-cover"
               />
               <a
                 href={PROFILE.githubUrl}
