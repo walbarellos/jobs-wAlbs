@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from 'react';
+import QRCode from "react-qr-code";
 import { 
   User, Github, ExternalLink, Sparkles, TrendingUp, Award, 
   Zap, Menu, X, Grid, List, Eye, Copy, Star, Flame, Calendar,
@@ -23,7 +23,7 @@ type Repository = {
 };
 
 type Product = {
-  id: string;
+  id:string;
   name: string;
   description: string;
   url: string;
@@ -62,7 +62,7 @@ const PROFILE = {
   name: "Willian Albarello",
   username: "walbarellos",
   bio: "Full Stack Developer | Open Source Enthusiast | Building the Future",
-  avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=walbarello",
+  avatarUrl: "https://walbarellos-paper.netlify.app/assets/img/perfil.jpg",
   githubUrl: "https://github.com/walbarellos",
   totalContributions: 127,
   currentStreak: 12,
@@ -158,7 +158,15 @@ export default function GithubPortfolio() {
   const [copiedLink, setCopiedLink] = useState(false);
   const [contributions] = useState(generateContributions());
   const [showTip, setShowTip] = useState(false);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [pixCopied, setPixCopied] = useState(false);
+  const PIX_KEY = "99481308200";
 
+  const handleCopyPix = () => {
+    navigator.clipboard.writeText(PIX_KEY);
+    setPixCopied(true);
+    setTimeout(() => setPixCopied(false), 3000);
+  };
   const copyProfileLink = () => {
     navigator.clipboard.writeText(PROFILE.githubUrl);
     setCopiedLink(true);
@@ -405,60 +413,86 @@ export default function GithubPortfolio() {
             </div>
           </section>
 
-        <div className="mb-16">
-          <button
-            onClick={() => setShowTip(!showTip)}
-            className="group relative w-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl p-8 text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/50 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-            <div className="relative flex items-center justify-center gap-3">
-              <Sparkles size={26} className="text-yellow-300 animate-pulse" />
-              <span className="text-2xl">Pague um Café ☕</span>
-              <Sparkles size={26} className="text-yellow-300 animate-bounce" />
-            </div>
-          </button>
-
-          {showTip && (
-            <div className="mt-6 glass-morphism rounded-2xl p-8 border border-amber-400/30 animate-fadeIn">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <Sparkles size={24} className="text-amber-400" />
-                Escolha o valor
-              </h3>
-
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                {['R$ 5', 'R$ 10', 'R$ 20'].map((v) => (
-                  <button
-                    key={v}
-                    className="glass-morphism border border-amber-400/40 rounded-xl py-4 text-lg font-semibold hover:bg-amber-500/20 transition-all hover:scale-105"
-                    onClick={() => setShowTip(true)}
-                  >
-                    {v}
-                  </button>
-                ))}
-              </div>
-
-              {/* PIX INLINE: sem redirecionar */}
-              <div className="mb-3">
-                <button
-                  onClick={() => navigator.clipboard.writeText("seu-pix-aqui")}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl py-4 text-lg font-bold hover:from-green-600 hover:to-emerald-700 transition-all hover:scale-105"
-                >
-                  💚 Copiar Chave Pix
-                </button>
-                <p className="text-center text-sm text-gray-400 mt-2">
-                  Sua chave Pix será copiada automaticamente
-                </p>
-              </div>
-
-              {/* PayPal Inline */}
+          <div className="mb-16">
               <button
-                onClick={() => window.open("https://paypal.me/", "_blank")}
-                className="w-full glass-morphism border border-blue-400/40 rounded-xl py-4 text-lg font-semibold hover:bg-blue-600/20 transition-all hover:scale-105"
+                onClick={() => setShowTip(!showTip)}
+                className="group relative w-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl p-8 text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/50 overflow-hidden"
               >
-                💳 PayPal / Cartão
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                <div className="relative flex items-center justify-center gap-3">
+                  <Sparkles size={26} className="text-yellow-300 animate-pulse" />
+                  <span className="text-2xl">Pague um Café ☕</span>
+                  <Sparkles size={26} className="text-yellow-300 animate-bounce" />
+                </div>
               </button>
-            </div>
-          )}
+
+              {showTip && (
+                <div className="mt-6 glass-morphism rounded-2xl p-8 border border-amber-400/30 animate-fadeIn">
+                    <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <Sparkles size={24} className="text-amber-400" />
+                        Apoie meu trabalho
+                    </h3>
+
+                    <div className="text-center mb-6">
+                        <p className="text-gray-300 mb-4">Escaneie o QR Code ou copie a chave Pix:</p>
+                        <div className="bg-white p-4 rounded-xl inline-block shadow-lg">
+                            <QRCode
+                                value={PIX_KEY}
+                                size={160}
+                                bgColor="#FFFFFF"
+                                fgColor="#000000"
+                            />
+                        </div>
+                        {selectedAmount && (
+                            <p className="mt-4 text-lg font-semibold text-green-400 animate-pulse">
+                                Valor selecionado: R$ {selectedAmount.toFixed(2)}
+                            </p>
+                        )}
+                    </div>
+                    
+                    <div className="grid grid-cols-4 gap-2 mb-6">
+                        {[5, 10, 20].map((amount) => (
+                            <button
+                                key={amount}
+                                onClick={() => setSelectedAmount(amount)}
+                                className={`glass-morphism border rounded-xl py-3 text-lg font-semibold transition-all hover:scale-105 ${
+                                    selectedAmount === amount
+                                    ? 'bg-amber-500/40 border-amber-400'
+                                    : 'border-amber-400/40 hover:bg-amber-500/20'
+                                }`}
+                            >
+                                R$ {amount}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => setSelectedAmount(null)}
+                            className={`glass-morphism border rounded-xl py-3 text-sm font-semibold transition-all hover:scale-105 ${
+                                selectedAmount === null
+                                ? 'bg-gray-500/40 border-gray-400'
+                                : 'border-gray-400/40 hover:bg-gray-500/20'
+                            }`}
+                        >
+                            Outro
+                        </button>
+                    </div>
+
+                    <div className="mb-4">
+                        <button
+                            onClick={handleCopyPix}
+                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl py-4 text-lg font-bold hover:from-green-600 hover:to-emerald-700 transition-all hover:scale-105"
+                        >
+                            {pixCopied ? "✅ Chave Pix Copiada!" : "💚 Copiar Chave Pix"}
+                        </button>
+                    </div>
+
+                    <button
+                        onClick={() => window.open("https://paypal.me/walbarellos", "_blank")}
+                        className="w-full glass-morphism border border-blue-400/40 rounded-xl py-4 text-lg font-semibold hover:bg-blue-600/20 transition-all hover:scale-105"
+                    >
+                        💳 Apoiar com PayPal
+                    </button>
+                </div>
+              )}
         </div>
 
           {/* Recommended Products */}
