@@ -196,6 +196,19 @@ export default function GithubPortfolio() {
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes background-pan {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-background-pan {
+          background-size: 200% 200%;
+          animation: background-pan 3s linear infinite;
+        }
       `}</style>
 
       <div className={`min-h-screen bg-gradient-to-br ${THEMES[theme].bg} text-white transition-all duration-700 relative overflow-hidden`}>
@@ -274,18 +287,22 @@ export default function GithubPortfolio() {
           <header className="mb-16 flex flex-col items-center text-center">
             <div className="relative mb-6 group">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition animate-pulse" />
-              <img
-                src={PROFILE.avatarUrl}
-                alt={PROFILE.name}
-                className="relative w-36 h-36 rounded-full border-4 border-white/20 shadow-2xl object-cover"
-              />
+              
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-background-pan">
+                <img
+                  src={PROFILE.avatarUrl}
+                  alt={PROFILE.name}
+                  className="relative w-48 h-48 rounded-full object-contain bg-gray-900"
+                />
+              </div>
+
               <a
                 href={PROFILE.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="absolute -bottom-2 -right-2 flex items-center justify-center w-12 h-12 rounded-full border-4 border-gray-900 bg-white text-gray-900 hover:scale-110 transition"
+                className="absolute -bottom-3 -right-3 flex items-center justify-center w-16 h-16 rounded-full border-4 border-gray-900 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white hover:scale-110 transition animate-background-pan"
               >
-                <Github size={20} />
+                <Github size={32} />
               </a>
             </div>
 
