@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useState, useCallback, useMemo } from 'react';
+
 import QRCode from "react-qr-code";
 import { 
   User, Github, ExternalLink, Sparkles, TrendingUp, Award, 
