@@ -157,7 +157,6 @@ export default function GithubPortfolio() {
   const [showMenu, setShowMenu] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [contributions] = useState(generateContributions());
-  const [showTip, setShowTip] = useState(false);
 
   const copyProfileLink = () => {
     navigator.clipboard.writeText(PROFILE.githubUrl);
@@ -405,62 +404,6 @@ export default function GithubPortfolio() {
             </div>
           </section>
 
-        <div className="mb-16">
-          <button
-            onClick={() => setShowTip(!showTip)}
-            className="group relative w-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl p-8 text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/50 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-            <div className="relative flex items-center justify-center gap-3">
-              <Sparkles size={26} className="text-yellow-300 animate-pulse" />
-              <span className="text-2xl">Pague um Café ☕</span>
-              <Sparkles size={26} className="text-yellow-300 animate-bounce" />
-            </div>
-          </button>
-
-          {showTip && (
-            <div className="mt-6 glass-morphism rounded-2xl p-8 border border-amber-400/30 animate-fadeIn">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <Sparkles size={24} className="text-amber-400" />
-                Escolha o valor
-              </h3>
-
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                {['R$ 5', 'R$ 10', 'R$ 20'].map((v) => (
-                  <button
-                    key={v}
-                    className="glass-morphism border border-amber-400/40 rounded-xl py-4 text-lg font-semibold hover:bg-amber-500/20 transition-all hover:scale-105"
-                    onClick={() => setShowTip(true)}
-                  >
-                    {v}
-                  </button>
-                ))}
-              </div>
-
-              {/* PIX INLINE: sem redirecionar */}
-              <div className="mb-3">
-                <button
-                  onClick={() => navigator.clipboard.writeText("seu-pix-aqui")}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl py-4 text-lg font-bold hover:from-green-600 hover:to-emerald-700 transition-all hover:scale-105"
-                >
-                  💚 Copiar Chave Pix
-                </button>
-                <p className="text-center text-sm text-gray-400 mt-2">
-                  Sua chave Pix será copiada automaticamente
-                </p>
-              </div>
-
-              {/* PayPal Inline */}
-              <button
-                onClick={() => window.open("https://paypal.me/", "_blank")}
-                className="w-full glass-morphism border border-blue-400/40 rounded-xl py-4 text-lg font-semibold hover:bg-blue-600/20 transition-all hover:scale-105"
-              >
-                💳 PayPal / Cartão
-              </button>
-            </div>
-          )}
-        </div>
-
           {/* Recommended Products */}
           <section className="mb-12">
             <div className="flex items-center justify-between mb-6">
@@ -524,7 +467,7 @@ export default function GithubPortfolio() {
             <div className="mb-6 flex items-center justify-center gap-3">
               <Sparkles size={20} className="text-yellow-400" />
               <p className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                 שִׁוִּיתִי יְהוָה לְנֶגְדִּי תָמִיד Sempre coloco o Eterno diante de mim. 
+                Built with ❤️ and React
               </p>
               <Sparkles size={20} className="text-yellow-400" />
             </div>
